@@ -1,0 +1,109 @@
+/* ==========================================================================
+   DESIGN TOKENS - PARTHIV GUPTA PORTFOLIO
+   Theme: Pure Black Modern Luxury Editorial Theme
+   ========================================================================== */
+
+/* Local Custom Font: Run! (From assets/run-font.zip) */
+@font-face {
+  font-family: 'Run';
+  src: url('/assets/fonts/Run-6YeWA.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Core Contrast & Pitch Black Foundations */
+  --c-black: #000000;
+  --c-white: #ffffff;
+  --c-offwhite: #f3f4f6;
+
+  /* Surfaces & Backgrounds - Completely Black */
+  --bg-canvas: #000000;
+  --bg-surface-0: #050505;
+  --bg-surface-1: #0a0a0a;
+  --bg-surface-2: #121212;
+  --bg-surface-3: #1a1a1a;
+  --bg-glass: rgba(8, 8, 8, 0.88);
+
+  /* Typography Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --text-inverse: #000000;
+
+  /* Borders & Dividers - Ultra-Crisp Monochrome */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-default: rgba(255, 255, 255, 0.14);
+  --border-hover: rgba(255, 255, 255, 0.35);
+  --border-active: #ffffff;
+  --border-magenta: rgba(255, 255, 255, 0.22);
+  --border-amber: rgba(255, 255, 255, 0.22);
+
+  /* High-Contrast Luxury Accents - Extracted from Personal Image (Neon Crimson & Solar Amber) */
+  --accent-red: #EB3833;
+  --accent-red-glow: rgba(235, 56, 51, 0.45);
+  --accent-gold: #F59E0B;
+  --accent-gold-glow: rgba(245, 158, 11, 0.4);
+  --accent-primary: #EB3833;
+  --accent-secondary: #F59E0B;
+  --accent-highlight: #F59E0B;
+
+  /* Accent Alpha Tints */
+  --tint-blue-10: rgba(235, 56, 51, 0.08);
+  --tint-blue-20: rgba(235, 56, 51, 0.16);
+  --tint-blue-30: rgba(235, 56, 51, 0.28);
+
+  --tint-magenta-10: rgba(235, 56, 51, 0.08);
+  --tint-magenta-20: rgba(235, 56, 51, 0.18);
+
+  --tint-amber-10: rgba(245, 158, 11, 0.08);
+  --tint-amber-20: rgba(245, 158, 11, 0.18);
+
+  /* Gradients */
+  --grad-primary: linear-gradient(135deg, #EB3833 0%, #F59E0B 100%);
+  --grad-warm: linear-gradient(135deg, #F59E0B 0%, #EB3833 100%);
+  --grad-surface: linear-gradient(180deg, rgba(14, 14, 14, 0.95) 0%, rgba(0, 0, 0, 1) 100%);
+  --grad-glow: radial-gradient(circle at 50% 0%, rgba(235, 56, 51, 0.12), transparent 70%);
+
+  /* Ambient Grid Highlights */
+  --ambient-glow-1: rgba(255, 255, 255, 0.04);
+  --ambient-glow-2: rgba(255, 255, 255, 0.02);
+
+  /* Typography System */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-brand: 'Run', 'Outfit', sans-serif;
+
+  /* Font Weights */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.95);
+  --glow-blue: 0 0 25px rgba(255, 255, 255, 0.15);
+  --glow-magenta: 0 0 25px rgba(255, 255, 255, 0.12);
+  --glow-amber: 0 0 25px rgba(255, 255, 255, 0.12);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --max-width: 1240px;
+  --header-height: 72px;
+}

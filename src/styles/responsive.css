@@ -1,0 +1,244 @@
+/* ==========================================================================
+   RESPONSIVENESS & MEDIA QUERIES
+   Tested across Desktop, Laptop, Tablet, and Mobile
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  /* Side Navigation Drawer on Mobile/Tablet */
+  .side-nav {
+    transform: translateX(-100%);
+    width: 290px;
+    max-width: 85vw;
+    z-index: 700;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+  }
+
+  .side-nav.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 64px;
+  }
+
+  .mobile-top-bar {
+    display: flex;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    text-align: left;
+  }
+
+  .hero-visual {
+    order: -1;
+    justify-content: flex-start;
+  }
+
+  .portrait-wrapper {
+    max-width: 380px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  /* Carousel on Tablets */
+  .skiper-slide {
+    flex: 0 0 340px;
+    width: 340px;
+    height: 480px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .hero-section {
+    padding-top: 30px;
+    min-height: auto;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  /* Skiper 54 Carousel Mobile Layout */
+  .skiper-carousel-viewport {
+    padding: 10px 0;
+  }
+
+  .skiper-carousel-track {
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .skiper-slide {
+    flex: 0 0 85vw;
+    width: 85vw;
+    height: 460px;
+  }
+
+  .skiper-slide-inner {
+    clip-path: inset(10% 0 10% 0 round 20px);
+  }
+
+  .skiper-slide.active .skiper-slide-inner {
+    clip-path: inset(0 0 0 0 round 20px);
+  }
+
+  .skiper-slide-content {
+    padding: 20px 18px;
+  }
+
+  .skiper-slide-title {
+    font-size: 1.25rem;
+  }
+
+  .hero-telemetry {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .telemetry-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .telemetry-item:nth-child(3) {
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 16px;
+  }
+
+  .telemetry-item:nth-child(4) {
+    border-top: 1px solid var(--border-subtle);
+    border-right: none;
+    padding-top: 16px;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-info-wrapper {
+    padding: 24px;
+  }
+
+  .project-heading {
+    font-size: 1.5rem;
+  }
+
+  .project-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .project-card-footer .btn {
+    width: 100%;
+  }
+
+  /* Timeline on Mobile */
+  .timeline::before {
+    left: 10px;
+  }
+
+  .timeline::after {
+    left: 10px;
+  }
+
+  .timeline-item {
+    padding-left: 36px;
+  }
+
+  .timeline-node {
+    left: 2px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .timeline-card {
+    padding: 20px;
+  }
+
+  .timeline-role {
+    font-size: 1.125rem;
+  }
+
+  .edu-achieve-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-nav-groups {
+    gap: 40px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.125rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-telemetry {
+    grid-template-columns: 1fr;
+  }
+
+  .telemetry-item {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 0;
+  }
+
+  .telemetry-item:last-child {
+    border-bottom: none;
+  }
+
+  .contact-card-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .contact-card-item .copy-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
