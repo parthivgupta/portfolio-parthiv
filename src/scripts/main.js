@@ -269,17 +269,21 @@ function initProjectsCarousel() {
           <span>${project.badgeLabel}</span>
         </div>
         <div class="skiper-slide-content">
-          <span class="skiper-slide-category">${project.category.toUpperCase()}</span>
-          <h3 class="skiper-slide-title">${project.title}</h3>
-          <p class="skiper-slide-tagline">${project.tagline}</p>
-          <div class="skiper-slide-tags">
-            ${tagsHtml}
-            ${project.techStack.length > 4 ? `<span class="skiper-slide-tag">+${project.techStack.length - 4}</span>` : ''}
+          <div class="skiper-slide-header">
+            <span class="skiper-slide-category">${project.category.toUpperCase()}</span>
+            <h3 class="skiper-slide-title">${project.title}</h3>
           </div>
-          <button class="skiper-slide-action" data-project-id="${project.id}" aria-label="Know more about ${project.title}">
-            <span>Know More & Details</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+          <div class="skiper-slide-hover-content">
+            <p class="skiper-slide-tagline">${project.tagline}</p>
+            <div class="skiper-slide-tags">
+              ${tagsHtml}
+              ${project.techStack.length > 4 ? `<span class="skiper-slide-tag">+${project.techStack.length - 4}</span>` : ''}
+            </div>
+            <button class="skiper-slide-action" data-project-id="${project.id}" aria-label="Know more about ${project.title}">
+              <span>Know More & Details</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     `;

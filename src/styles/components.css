@@ -603,7 +603,7 @@
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The Inner Clip-Path Container - Exact visual reproduction of Skiper 54 */
+/* The Inner Clip-Path Container - Borderless Modern Style */
 .skiper-slide-inner {
   position: relative;
   width: 100%;
@@ -611,27 +611,43 @@
   border-radius: 32px;
   overflow: hidden;
   background: var(--bg-surface-1);
-  border: 1px solid var(--border-default);
+  border: none;
+  outline: none;
   /* Inactive clip-path state: vertical inset clip (signature Skiper 54 motion) */
   clip-path: inset(11% 0 11% 0 round 32px);
   opacity: 0.65;
   transform: scale(0.95);
   transition:
-    clip-path 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.45s ease,
-    border-color 0.45s ease,
-    box-shadow 0.45s ease;
+    clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.4s ease,
+    box-shadow 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: pointer;
 }
 
-/* Active Slide State - Pops out fully with 0 clip-path and rich shadow */
+/* Active Slide State - Pops out fully with 0 clip-path and rich shadow, NO borders */
 .skiper-slide.active .skiper-slide-inner {
   clip-path: inset(0 0 0 0 round 32px);
   opacity: 1;
   transform: scale(1.02);
-  border-color: rgba(235, 56, 51, 0.4);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(235, 56, 51, 0.2);
+  border: none;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 28px rgba(235, 56, 51, 0.22);
+}
+
+/* Bouncy Hover Elevation on Cards */
+.skiper-slide:hover .skiper-slide-inner {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.75), 0 0 32px rgba(235, 56, 51, 0.3);
+}
+
+[data-theme="light"] .skiper-slide.active .skiper-slide-inner {
+  border: none;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12), 0 0 22px rgba(217, 36, 32, 0.1);
+}
+
+[data-theme="light"] .skiper-slide:hover .skiper-slide-inner {
+  border: none;
+  box-shadow: 0 28px 55px rgba(15, 23, 42, 0.16), 0 0 28px rgba(217, 36, 32, 0.15);
 }
 
 /* Slide Image Banner */
@@ -675,7 +691,7 @@
   );
 }
 
-/* Slide Floating Badges & Content */
+/* Slide Floating Badges & Content - Borderless */
 .skiper-slide-badge {
   position: absolute;
   top: 20px;
@@ -691,13 +707,13 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   background: rgba(15, 10, 22, 0.85);
-  border: 1px solid var(--border-default);
+  border: none;
   color: var(--text-primary);
 }
 
 [data-theme="light"] .skiper-slide-badge {
   background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(15, 23, 42, 0.12);
+  border: none;
   color: var(--text-primary);
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
@@ -707,13 +723,18 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 28px 24px;
+  padding: 24px 22px;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   transform: translateY(0);
-  transition: transform 0.4s ease;
+}
+
+.skiper-slide-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .skiper-slide-category {
@@ -727,7 +748,7 @@
 
 .skiper-slide-title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: var(--fw-bold);
   color: var(--text-primary);
   line-height: 1.25;
@@ -735,10 +756,46 @@
   letter-spacing: -0.02em;
 }
 
+/* Hover-Only Content: Tagline, Tech Tags & Action Button with Bouncy Spring Animation */
+.skiper-slide-hover-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(18px) scale(0.96);
+  transform-origin: bottom;
+  transition:
+    max-height 0.45s cubic-bezier(0.34, 1.4, 0.64, 1),
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* On card hover: bouncy reveal of the extra content */
+.skiper-slide:hover .skiper-slide-hover-content,
+.skiper-slide:focus-within .skiper-slide-hover-content {
+  max-height: 240px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Mobile & Touch fallback: on devices without mouse hover, active slide shows content */
+@media (hover: none) {
+  .skiper-slide.active .skiper-slide-hover-content {
+    max-height: 240px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .skiper-slide-tagline {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--text-secondary);
-  line-height: 1.45;
+  line-height: 1.4;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -750,7 +807,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 4px;
 }
 
 .skiper-slide-tag {
@@ -759,12 +815,12 @@
   padding: 3px 8px;
   border-radius: var(--radius-sm);
   background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
+  border: none;
   color: var(--text-secondary);
 }
 
 .skiper-slide-action {
-  margin-top: 8px;
+  margin-top: 4px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -775,18 +831,17 @@
   font-weight: var(--fw-semibold);
   border-radius: var(--radius-md);
   background: var(--tint-blue-10);
-  border: 1px solid var(--tint-blue-20);
+  border: none;
   color: var(--accent-primary);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .skiper-slide-action:hover {
   background: var(--accent-primary);
-  border-color: var(--accent-primary);
   color: #ffffff;
   box-shadow: 0 4px 14px var(--accent-red-glow);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* Navigation & Pagination Controls */
