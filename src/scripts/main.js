@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeSwitcher();
   initSideNav();
   initHeroMotion();
+  initNameHoverReveal();
   initPortraitSwitcher();
   initProjectsCarousel();
   initProjectModal();
@@ -57,6 +58,109 @@ function initHeroMotion() {
   window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
   window.addEventListener('resize', requestParallaxUpdate, { passive: true });
   updateParallax();
+}
+
+/* ==========================================================================
+   2.1 HERO NAME HOVER REVEAL & HIGHLIGHT CYCLER
+   ========================================================================== */
+function initNameHoverReveal() {
+  const nameEl = document.getElementById('heroNameReveal');
+  const pillText = document.getElementById('namePillText');
+  const heroDesc = document.getElementById('heroDescription');
+  const statusTicker = document.getElementById('heroStatusTicker');
+  const revealWords = document.querySelectorAll('.hover-reveal-word');
+
+  // Ambient mouse track for hero description spotlight
+  if (heroDesc) {
+    heroDesc.addEventListener('mousemove', (e) => {
+      const rect = heroDesc.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      heroDesc.style.setProperty('--mouse-x', `${x}px`);
+      heroDesc.style.setProperty('--mouse-y', `${y}px`);
+    });
+  }
+
+  // Touch / click toggle for inline words
+  revealWords.forEach((word) => {
+    word.addEventListener('touchstart', () => {
+      word.classList.toggle('is-active');
+    }, { passive: true });
+
+    word.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        word.classList.toggle('is-active');
+      }
+    });
+  });
+
+  if (statusTicker) {
+    statusTicker.addEventListener('touchstart', () => {
+      statusTicker.classList.toggle('is-active');
+    }, { passive: true });
+  }
+
+  if (!nameEl || !pillText) return;
+
+  const roles = [
+    'Backend & ML',
+    'TutorAaya Founder',
+    'UGC-NET Qualified',
+    'FastAPI & Distributed',
+    'Applied CV & Audio'
+  ];
+
+  let currentIdx = 0;
+
+  // Ambient mouse track for spotlight lens
+  nameEl.addEventListener('mousemove', (e) => {
+    const rect = nameEl.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    nameEl.style.setProperty('--mouse-x', `${x}px`);
+    nameEl.style.setProperty('--mouse-y', `${y}px`);
+  });
+
+  function cycleRole() {
+    currentIdx = (currentIdx + 1) % roles.length;
+    pillText.classList.remove('text-swap');
+    void pillText.offsetWidth; // force reflow
+    pillText.textContent = roles[currentIdx];
+    pillText.classList.add('text-swap');
+  }
+
+  // Cycle on click or touch
+  nameEl.addEventListener('click', () => {
+    cycleRole();
+  });
+
+  // Cycle on hover entrance
+  let hoverTimeout = null;
+  nameEl.addEventListener('mouseenter', () => {
+    clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      cycleRole();
+    }, 1200);
+  });
+
+  nameEl.addEventListener('mouseleave', () => {
+    clearTimeout(hoverTimeout);
+  });
+
+  // Touch device toggle support
+  nameEl.addEventListener('touchstart', () => {
+    nameEl.classList.toggle('is-active');
+    cycleRole();
+  }, { passive: true });
+
+  // Keyboard accessibility
+  nameEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      cycleRole();
+    }
+  });
 }
 
 /* ==========================================================================

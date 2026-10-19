@@ -126,9 +126,9 @@
    ========================================================================== */
 
 .hero-section {
-  padding-top: calc(var(--header-height) + 40px);
-  padding-bottom: 60px;
-  min-height: min(100vh, 900px);
+  padding-top: calc(var(--header-height) + 18px);
+  padding-bottom: 50px;
+  min-height: min(100vh, 880px);
   display: flex;
   align-items: center;
   position: relative;
@@ -157,8 +157,30 @@
   border: 1px solid rgba(243, 146, 55, 0.25);
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  margin-bottom: 24px;
+  margin-bottom: 14px;
   align-self: flex-start;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hero-status-ticker:hover,
+.hero-status-ticker:focus {
+  background: rgba(243, 146, 55, 0.14);
+  border-color: rgba(243, 146, 55, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(243, 146, 55, 0.2);
+}
+
+.hero-status-ticker:hover .ticker-pill,
+.hero-status-ticker:focus .ticker-pill {
+  max-width: 190px;
+  opacity: 1;
+  pointer-events: auto;
+  margin-left: 8px;
+  padding: 2px 10px;
+  transform: scale(1) translateY(0);
 }
 
 .hero-title {
@@ -166,7 +188,7 @@
   font-weight: var(--fw-extrabold);
   letter-spacing: -0.035em;
   line-height: 1.08;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   color: var(--text-primary);
 }
 
@@ -174,41 +196,345 @@
   font-family: var(--font-brand);
   letter-spacing: 0.04em;
   color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+}
+
+/* Ambient Radial Cursor Spotlight behind Name */
+.hero-title .name-highlight::after {
+  content: "";
+  position: absolute;
+  inset: -14px -24px;
+  background: radial-gradient(
+    circle 100px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(235, 56, 51, 0.22),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: 999px;
+  z-index: -1;
+}
+
+[data-theme="light"] .hero-title .name-highlight::after {
+  background: radial-gradient(
+    circle 100px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(217, 36, 32, 0.16),
+    transparent 70%
+  );
+}
+
+.hero-title .name-highlight:hover::after {
+  opacity: 1;
+}
+
+/* First & Last Name Parts */
+.name-part {
   display: inline-block;
   background: linear-gradient(135deg, #ffffff 40%, #a1a1aa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition:
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.35s ease;
+  will-change: transform;
 }
 
-[data-theme="light"] .hero-title .name-highlight {
+[data-theme="light"] .name-part {
   background: linear-gradient(135deg, #090d16 40%, #334155 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.hero-tagline {
-  font-family: var(--font-display);
-  font-size: clamp(1.125rem, 2vw, 1.375rem);
-  font-weight: var(--fw-medium);
-  color: var(--accent-primary);
-  margin-bottom: 20px;
-  line-height: 1.4;
+/* Tactile Spring Separation on Hover */
+.hero-title .name-highlight:hover .name-first,
+.hero-title .name-highlight.is-active .name-first {
+  transform: translateX(-4px);
+  filter: drop-shadow(0 0 16px rgba(235, 56, 51, 0.35));
 }
 
+.hero-title .name-highlight:hover .name-last,
+.hero-title .name-highlight.is-active .name-last {
+  transform: translateX(4px);
+  filter: drop-shadow(0 0 16px rgba(235, 56, 51, 0.35));
+}
+
+[data-theme="light"] .hero-title .name-highlight:hover .name-first,
+[data-theme="light"] .hero-title .name-highlight.is-active .name-first,
+[data-theme="light"] .hero-title .name-highlight:hover .name-last,
+[data-theme="light"] .hero-title .name-highlight.is-active .name-last {
+  filter: drop-shadow(0 4px 12px rgba(217, 36, 32, 0.2));
+}
+
+/* Expandable Spring Pill Reveal */
+.name-reveal-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(235, 56, 51, 0.12);
+  border: 1px solid rgba(235, 56, 51, 0.35);
+  transform: scale(0.7) translateY(2px);
+  transform-origin: center;
+  transition:
+    max-width 0.48s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.32s ease,
+    transform 0.48s cubic-bezier(0.34, 1.56, 0.64, 1),
+    margin 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    padding 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease;
+}
+
+.hero-title .name-highlight:hover .name-reveal-pill,
+.hero-title .name-highlight:focus .name-reveal-pill,
+.hero-title .name-highlight.is-active .name-reveal-pill {
+  max-width: 260px;
+  opacity: 1;
+  pointer-events: auto;
+  margin: 0 12px;
+  padding: 5px 14px;
+  transform: scale(1) translateY(0);
+  box-shadow: 0 0 24px rgba(235, 56, 51, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .name-reveal-pill {
+  background: rgba(217, 36, 32, 0.08);
+  border-color: rgba(217, 36, 32, 0.28);
+}
+
+[data-theme="light"] .hero-title .name-highlight:hover .name-reveal-pill,
+[data-theme="light"] .hero-title .name-highlight.is-active .name-reveal-pill {
+  box-shadow: 0 4px 18px rgba(217, 36, 32, 0.18);
+}
+
+.name-reveal-pill .pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary);
+  animation: pillPulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pillPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.65;
+  }
+}
+
+.name-reveal-pill .pill-text {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  -webkit-text-fill-color: var(--accent-primary);
+  line-height: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.name-reveal-pill .pill-text.text-swap {
+  animation: pillTextFlip 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pillTextFlip {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Description & Interactive Word Reveal */
 .hero-description {
+  position: relative;
   font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.35vw, 1.125rem);
+  font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
   font-weight: var(--fw-normal);
   color: var(--text-secondary);
-  letter-spacing: 0.005em;
+  letter-spacing: 0.01em;
   line-height: 1.8;
-  max-width: 600px;
-  margin-bottom: 32px;
+  max-width: 550px;
+  margin-bottom: 24px;
+  padding: 8px 12px;
+  margin-left: -12px;
+  border-radius: var(--radius-md);
+  transition: background 0.3s ease, border-color 0.3s ease;
+  border: 1px solid transparent;
 }
 
-.hero-description strong {
+.hero-description:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .hero-description:hover {
+  background: rgba(15, 23, 42, 0.02);
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+/* Ambient Cursor Spotlight behind paragraph */
+.hero-description::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(235, 56, 51, 0.1),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+[data-theme="light"] .hero-description::after {
+  background: radial-gradient(
+    circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(217, 36, 32, 0.08),
+    transparent 70%
+  );
+}
+
+.hero-description:hover::after {
+  opacity: 1;
+}
+
+/* Inline Keyword Spring Reveal */
+.hover-reveal-word {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: color 0.25s ease;
+}
+
+.hover-reveal-word .word-text {
   color: var(--text-primary);
+  font-weight: var(--fw-medium);
+  border-bottom: 1px dashed var(--border-hover);
+  padding-bottom: 1px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-reveal-word:hover .word-text,
+.hover-reveal-word:focus .word-text,
+.hover-reveal-word.is-active .word-text {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+  border-bottom-style: solid;
+  transform: translateY(-1px);
+  filter: drop-shadow(0 0 10px var(--accent-red-glow));
+}
+
+/* Micro spring pill inside paragraph */
+.word-reveal-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(235, 56, 51, 0.12);
+  border: 1px solid rgba(235, 56, 51, 0.35);
+  transform: scale(0.7) translateY(1px);
+  transform-origin: center;
+  transition:
+    max-width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.28s ease,
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    margin 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+    padding 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+}
+
+.hover-reveal-word:hover .word-reveal-pill,
+.hover-reveal-word:focus .word-reveal-pill,
+.hover-reveal-word.is-active .word-reveal-pill {
+  max-width: 180px;
+  opacity: 1;
+  pointer-events: auto;
+  margin: 0 6px;
+  padding: 2px 9px;
+  transform: scale(1) translateY(0);
+  box-shadow: 0 0 16px rgba(235, 56, 51, 0.3), 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .word-reveal-pill {
+  background: rgba(217, 36, 32, 0.08);
+  border-color: rgba(217, 36, 32, 0.25);
+}
+
+[data-theme="light"] .hover-reveal-word:hover .word-reveal-pill {
+  box-shadow: 0 2px 10px rgba(217, 36, 32, 0.15);
+}
+
+.word-reveal-pill .pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 6px var(--accent-primary);
+  animation: pillPulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.word-reveal-pill .pill-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: var(--fw-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  -webkit-text-fill-color: var(--accent-primary);
+  line-height: 1;
+}
+
+/* Telemetry Items Ambient Spotlight on Hover */
+.telemetry-item {
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.telemetry-item:hover {
+  transform: translateY(-4px) scale(1.02);
 }
 
 .hero-actions {

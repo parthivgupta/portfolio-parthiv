@@ -213,21 +213,59 @@
       <div class="container">
         <div class="hero-grid">
           <div class="hero-content hero-reveal-group">
-            <div class="hero-status-ticker hero-reveal-item">
+            <div class="hero-status-ticker hero-reveal-item" id="heroStatusTicker" tabindex="0">
               <span class="pulse-dot"></span>
-              <span>OPEN TO OPPORTUNITIES · NOIDA / HYBRID</span>
+              <span class="ticker-text">OPEN TO OPPORTUNITIES · NOIDA / HYBRID</span>
+              <span class="word-reveal-pill ticker-pill" aria-hidden="true">
+                <span class="pill-dot"></span>
+                <span class="pill-text">Available Full-Time</span>
+              </span>
             </div>
 
             <h1 class="hero-title hero-reveal-item">
-              <span class="name-highlight">Parthiv Gupta</span>
+              <span class="name-highlight" id="heroNameReveal" tabindex="0" role="button" aria-label="Parthiv Gupta - Hover to reveal specialization">
+                <span class="name-part name-first">Parthiv</span>
+                <span class="name-reveal-pill" aria-hidden="true">
+                  <span class="pill-dot"></span>
+                  <span class="pill-text" id="namePillText">Backend & ML</span>
+                </span>
+                <span class="name-part name-last">Gupta</span>
+              </span>
             </h1>
 
-            <p class="hero-tagline hero-reveal-item">
-              Backend Engineer building fast, reliable systems with Python and applied AI.
-            </p>
-
-            <p class="hero-description hero-reveal-item">
-              I build production-grade microservices, event-driven pipelines, and practical computer vision and speech AI. Currently engineering high-availability services at Octinix Software Labs and building <strong>TutorAaya</strong>.
+            <p class="hero-description hero-reveal-item" id="heroDescription">
+              I build production-grade 
+              <span class="hover-reveal-word" tabindex="0">
+                <span class="word-text">microservices</span>
+                <span class="word-reveal-pill" aria-hidden="true">
+                  <span class="pill-dot"></span>
+                  <span class="pill-text">FastAPI & Redis</span>
+                </span>
+              </span>, 
+              event-driven pipelines, and practical 
+              <span class="hover-reveal-word" tabindex="0">
+                <span class="word-text">computer vision & AI</span>
+                <span class="word-reveal-pill" aria-hidden="true">
+                  <span class="pill-dot"></span>
+                  <span class="pill-text">TensorFlow</span>
+                </span>
+              </span>. 
+              Currently engineering high-availability services at 
+              <span class="hover-reveal-word" tabindex="0">
+                <span class="word-text">Octinix Software Labs</span>
+                <span class="word-reveal-pill" aria-hidden="true">
+                  <span class="pill-dot"></span>
+                  <span class="pill-text">SDE</span>
+                </span>
+              </span> 
+              and building 
+              <span class="hover-reveal-word" tabindex="0">
+                <strong class="word-text">TutorAaya</strong>
+                <span class="word-reveal-pill" aria-hidden="true">
+                  <span class="pill-dot"></span>
+                  <span class="pill-text">Founder</span>
+                </span>
+              </span>.
             </p>
 
             <div class="hero-actions hero-reveal-item">
