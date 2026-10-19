@@ -1192,7 +1192,7 @@ function initThemeSwitcher() {
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
 
   function getCurrentTheme() {
-    return document.documentElement.getAttribute('data-theme') || 'dark';
+    return document.documentElement.getAttribute('data-theme') || 'light';
   }
 
   function applyTheme(theme, save = true) {
@@ -1251,14 +1251,7 @@ function initThemeSwitcher() {
     });
   });
 
-  // Listen for System Theme preference change if user hasn't set explicit preference
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    try {
-      if (!localStorage.getItem('portfolio-theme')) {
-        applyTheme(e.matches ? 'dark' : 'light', false);
-      }
-    } catch (_) {}
-  });
+  // Keep the editorial light theme as the default; theme changes are user-controlled.
 
   // Initial Sync from DOM attribute (set by head script)
   applyTheme(getCurrentTheme(), false);
