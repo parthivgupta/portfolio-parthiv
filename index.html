@@ -771,19 +771,31 @@
             <form id="contactForm">
               <div class="form-group">
                 <label class="form-label" for="formName">Your Name</label>
-                <input type="text" id="formName" name="name" class="form-control" placeholder="e.g. Alex Miller" required />
+                <div class="skiper-input-wrap">
+                  <input type="text" id="formName" name="name" class="form-control skiper-input" placeholder="e.g. Alex Miller" required autocomplete="name" />
+                  <div class="skiper-input-mirror" aria-hidden="true"></div>
+                </div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="formEmail">Your Email</label>
-                <input type="email" id="formEmail" name="email" class="form-control" placeholder="alex@company.com" required />
+                <div class="skiper-input-wrap">
+                  <input type="email" id="formEmail" name="email" class="form-control skiper-input" placeholder="alex@company.com" required autocomplete="email" />
+                  <div class="skiper-input-mirror" aria-hidden="true"></div>
+                </div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="formSubject">Subject</label>
-                <input type="text" id="formSubject" name="subject" class="form-control" placeholder="Software Engineering Opportunity / Project" required />
+                <div class="skiper-input-wrap">
+                  <input type="text" id="formSubject" name="subject" class="form-control skiper-input" placeholder="Software Engineering Opportunity / Project" required />
+                  <div class="skiper-input-mirror" aria-hidden="true"></div>
+                </div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="formMessage">Message</label>
-                <textarea id="formMessage" name="message" class="form-control" placeholder="Share details about the role, technical challenge, or project..." required></textarea>
+                <div class="skiper-input-wrap is-textarea">
+                  <textarea id="formMessage" name="message" class="form-control skiper-input" placeholder="Share details about the role, technical challenge, or project..." required></textarea>
+                  <div class="skiper-input-mirror" aria-hidden="true"></div>
+                </div>
               </div>
               <button type="submit" class="btn btn-primary" style="width:100%;">
                 Send Message

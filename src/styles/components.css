@@ -1562,38 +1562,215 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  position: relative;
+  margin-bottom: 22px;
 }
 
 .form-label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
+  font-weight: var(--fw-semibold);
   color: var(--text-secondary);
   margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast);
 }
 
-.form-control {
+.form-label::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.form-group.is-focused .form-label {
+  color: var(--accent-primary);
+}
+
+.form-group.is-focused .form-label::before {
+  background: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary);
+  transform: scale(1.25);
+}
+
+/* Skiper 68 Input Wrapper */
+.skiper-input-wrap {
+  position: relative;
   width: 100%;
-  padding: 12px 16px;
+  display: flex;
+  align-items: center;
   background: var(--bg-surface-0);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+  overflow: hidden;
+}
+
+.skiper-input-wrap:hover {
+  border-color: var(--border-hover);
+}
+
+.skiper-input-wrap.is-focused {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--tint-blue-20), 0 8px 24px var(--tint-blue-10);
+}
+
+.skiper-input-wrap.is-textarea {
+  align-items: flex-start;
+}
+
+[data-theme="light"] .skiper-input-wrap {
+  background: #ffffff;
+  border-color: var(--border-default);
+}
+
+[data-theme="light"] .skiper-input-wrap.is-focused {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--tint-blue-20), 0 8px 20px var(--tint-blue-10);
+}
+
+/* Native Input (transparent text so mirror shows animated characters) */
+.form-control.skiper-input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 13px 16px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  caret-color: transparent !important;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  transition: border-color var(--transition-fast);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  box-sizing: border-box;
 }
 
-.form-control:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(14, 121, 178, 0.15);
+.form-control.skiper-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.65;
+  transition: opacity 0.2s ease;
 }
 
-textarea.form-control {
+.skiper-input-wrap.has-value .form-control.skiper-input::placeholder {
+  opacity: 0;
+}
+
+textarea.form-control.skiper-input {
   resize: vertical;
   min-height: 120px;
+}
+
+/* Skiper 68 Animated Mirror Display */
+.skiper-input-mirror {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 13px 16px;
+  pointer-events: none;
+  z-index: 2;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  white-space: pre;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.skiper-input-wrap.is-textarea .skiper-input-mirror {
+  white-space: pre-wrap;
+  word-break: break-word;
+  align-items: flex-start;
+  display: block;
+}
+
+/* Skiper 68 Character Spans & Spring Pop */
+.skiper-char {
+  display: inline-block;
+  color: var(--text-primary);
+  transform-origin: bottom center;
+  will-change: transform, opacity;
+}
+
+.skiper-char.char-entering {
+  display: inline-block;
+  animation: skiperCharPop 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes skiperCharPop {
+  0% {
+    opacity: 0;
+    transform: translateY(0.55em) scale(0.75);
+    filter: blur(1.5px);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-0.1em) scale(1.08);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.skiper-char.char-selected {
+  background: var(--tint-blue-30);
+  border-radius: 2px;
+}
+
+/* Skiper 68 Caret */
+.skiper-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.25em;
+  background-color: var(--accent-primary);
+  margin: 0 1px;
+  border-radius: 1px;
+  vertical-align: -0.15em;
+  opacity: 0;
+  box-shadow: 0 0 10px var(--accent-primary);
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.skiper-input-wrap.is-focused .skiper-caret {
+  opacity: 1;
+  animation: skiperCaretBlink 1.05s ease-in-out infinite;
+}
+
+.skiper-input-wrap.is-typing .skiper-caret {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes skiperCaretBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Toast Notification */

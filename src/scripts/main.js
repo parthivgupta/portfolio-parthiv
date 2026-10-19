@@ -680,6 +680,8 @@ function initContactForm() {
 
   if (!form) return;
 
+  initSkiperAnimatedInputs(form);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = form.querySelector('[name="name"]').value;
@@ -699,6 +701,164 @@ function initContactForm() {
     }
 
     form.reset();
+  });
+}
+
+/* Skiper 68: Animated character spring reveal on typing with sleek cursor */
+function initSkiperAnimatedInputs(form) {
+  const wraps = form.querySelectorAll('.skiper-input-wrap');
+
+  wraps.forEach((wrap) => {
+    const input = wrap.querySelector('.skiper-input');
+    const mirror = wrap.querySelector('.skiper-input-mirror');
+    const group = wrap.closest('.form-group');
+
+    if (!input || !mirror) return;
+
+    let prevValue = input.value || '';
+    let typingTimer = null;
+
+    function render(isInitial = false) {
+      const currValue = input.value;
+      const isFocused = document.activeElement === input;
+      const selStart = input.selectionStart ?? currValue.length;
+      const selEnd = input.selectionEnd ?? currValue.length;
+
+      if (currValue.length > 0) {
+        wrap.classList.add('has-value');
+      } else {
+        wrap.classList.remove('has-value');
+      }
+
+      // Calculate newly added characters for spring animation
+      let addedStart = -1;
+      let addedEnd = -1;
+      if (!isInitial && currValue.length > prevValue.length) {
+        let start = 0;
+        while (start < prevValue.length && start < currValue.length && prevValue[start] === currValue[start]) {
+          start++;
+        }
+        let prevEnd = prevValue.length - 1;
+        let currEnd = currValue.length - 1;
+        while (prevEnd >= start && currEnd >= start && prevValue[prevEnd] === currValue[currEnd]) {
+          prevEnd--;
+          currEnd--;
+        }
+        addedStart = start;
+        addedEnd = currEnd + 1;
+      }
+
+      mirror.innerHTML = '';
+      const fragment = document.createDocumentFragment();
+
+      // If empty and focused, render caret at start
+      if (currValue.length === 0) {
+        if (isFocused) {
+          const caret = document.createElement('span');
+          caret.className = 'skiper-caret';
+          fragment.appendChild(caret);
+        }
+        mirror.appendChild(fragment);
+        prevValue = currValue;
+        return;
+      }
+
+      for (let i = 0; i < currValue.length; i++) {
+        // Caret before current char
+        if (isFocused && selStart === selEnd && i === selStart) {
+          const caret = document.createElement('span');
+          caret.className = 'skiper-caret';
+          fragment.appendChild(caret);
+        }
+
+        const span = document.createElement('span');
+        span.className = 'skiper-char';
+        const ch = currValue[i];
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+
+        // Animate newly added character with spring
+        if (i >= addedStart && i < addedEnd) {
+          span.classList.add('char-entering');
+        }
+
+        // Selection highlight
+        if (isFocused && selStart !== selEnd && i >= selStart && i < selEnd) {
+          span.classList.add('char-selected');
+        }
+
+        fragment.appendChild(span);
+      }
+
+      // Caret at the end
+      if (isFocused && selStart === selEnd && selStart >= currValue.length) {
+        const caret = document.createElement('span');
+        caret.className = 'skiper-caret';
+        fragment.appendChild(caret);
+      }
+
+      mirror.appendChild(fragment);
+
+      // Keep scroll in sync
+      mirror.scrollLeft = input.scrollLeft;
+      if (input.tagName === 'TEXTAREA') {
+        mirror.scrollTop = input.scrollTop;
+      }
+
+      prevValue = currValue;
+    }
+
+    // Input event (typing, backspace, paste, autofill)
+    input.addEventListener('input', () => {
+      wrap.classList.add('is-typing');
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => wrap.classList.remove('is-typing'), 380);
+      render(false);
+    });
+
+    // Focus & Blur
+    input.addEventListener('focus', () => {
+      wrap.classList.add('is-focused');
+      if (group) group.classList.add('is-focused');
+      render(true);
+    });
+
+    input.addEventListener('blur', () => {
+      wrap.classList.remove('is-focused', 'is-typing');
+      if (group) group.classList.remove('is-focused');
+      render(true);
+    });
+
+    // Caret navigation via click or keyboard
+    input.addEventListener('click', () => render(true));
+    input.addEventListener('keyup', (e) => {
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
+        render(true);
+      }
+    });
+    input.addEventListener('select', () => render(true));
+
+    // Scroll sync
+    input.addEventListener('scroll', () => {
+      mirror.scrollLeft = input.scrollLeft;
+      if (input.tagName === 'TEXTAREA') {
+        mirror.scrollTop = input.scrollTop;
+      }
+    });
+
+    // Initial render
+    render(true);
+  });
+
+  // Handle form reset
+  form.addEventListener('reset', () => {
+    setTimeout(() => {
+      wraps.forEach((wrap) => {
+        const input = wrap.querySelector('.skiper-input');
+        const mirror = wrap.querySelector('.skiper-input-mirror');
+        wrap.classList.remove('has-value', 'is-focused', 'is-typing');
+        if (mirror) mirror.innerHTML = '';
+      });
+    }, 10);
   });
 }
 
