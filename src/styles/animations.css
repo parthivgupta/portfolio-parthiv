@@ -105,20 +105,59 @@
   transform: translateY(0);
 }
 
-/* Kinetic Word-by-Word Scroll Reveal */
+/* Kinetic Word-by-Word Scroll & Spring Hover Reveal */
 .text-reveal-paragraph {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 0.32em;
-  max-width: 620px;
+  align-items: baseline;
+  gap: 0 0.35em;
+  max-width: 660px;
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 2.7vw, 2rem);
-  line-height: 1.48;
+  line-height: 1.55;
   font-weight: var(--fw-semibold);
   letter-spacing: -0.02em;
   color: var(--text-muted);
   perspective: 700px;
+  padding: 12px 16px;
+  margin-left: -16px;
+  border-radius: var(--radius-lg);
+  transition: background 0.3s ease;
+}
+
+.text-reveal-paragraph::after {
+  content: '';
+  position: absolute;
+  inset: -10px -16px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 140px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(235, 56, 51, 0.16),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+[data-theme="light"] .text-reveal-paragraph::after {
+  background: radial-gradient(
+    circle 140px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(217, 36, 32, 0.12),
+    transparent 70%
+  );
+}
+
+.text-reveal-paragraph:hover::after {
+  opacity: 1;
+}
+
+.text-reveal-paragraph .word-wrapper {
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
 }
 
 .text-reveal-paragraph .word {
@@ -126,9 +165,14 @@
   opacity: 0.35;
   color: var(--text-muted);
   transform: translate3d(0, 0.4em, 0);
-  transition: opacity 140ms ease-out,
-              transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
-              color 180ms ease-out;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    opacity 140ms ease-out,
+    transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.22s ease,
+    text-shadow 0.22s ease;
   will-change: opacity, transform;
 }
 
@@ -136,6 +180,21 @@
   color: var(--text-primary);
   opacity: 1;
   transform: translate3d(0, 0, 0);
+}
+
+/* Individual Word Spring Hover Elevation */
+.text-reveal-paragraph .word:hover,
+.text-reveal-paragraph .word-wrapper:hover .word {
+  transform: translateY(-4px) scale(1.08) !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 20px rgba(235, 56, 51, 0.5), 0 0 35px rgba(245, 158, 11, 0.35) !important;
+  z-index: 2;
+}
+
+[data-theme="light"] .text-reveal-paragraph .word:hover,
+[data-theme="light"] .text-reveal-paragraph .word-wrapper:hover .word {
+  color: var(--accent-primary) !important;
+  text-shadow: 0 4px 14px rgba(217, 36, 32, 0.25) !important;
 }
 
 .text-reveal-paragraph .word.highlight-red {
@@ -150,14 +209,73 @@
   text-shadow: 0 0 16px var(--accent-gold-glow);
 }
 
-.text-reveal-paragraph::after {
-  content: '';
-  position: absolute;
-  inset: -24px -32px;
-  z-index: -1;
+/* Inline Word Spring Pill in About Reveal */
+.text-reveal-paragraph .word-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(circle at 20% 50%, rgba(235, 56, 51, 0.08), transparent 58%);
-  filter: blur(20px);
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(235, 56, 51, 0.15);
+  border: 1px solid rgba(235, 56, 51, 0.4);
+  transform: scale(0.65) translateY(2px);
+  transform-origin: center;
+  transition:
+    max-width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.28s ease,
+    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    margin 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+    padding 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
+}
+
+.text-reveal-paragraph .word-wrapper:hover .word-pill,
+.text-reveal-paragraph .word-wrapper:focus-within .word-pill,
+.text-reveal-paragraph .word-wrapper.is-active .word-pill {
+  max-width: 190px;
+  opacity: 1;
+  pointer-events: auto;
+  margin: 0 8px;
+  padding: 3px 11px;
+  transform: scale(1) translateY(0);
+  box-shadow: 0 0 20px rgba(235, 56, 51, 0.35), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .text-reveal-paragraph .word-pill {
+  background: rgba(217, 36, 32, 0.09);
+  border-color: rgba(217, 36, 32, 0.28);
+}
+
+[data-theme="light"] .text-reveal-paragraph .word-wrapper:hover .word-pill {
+  box-shadow: 0 2px 12px rgba(217, 36, 32, 0.18);
+}
+
+.text-reveal-paragraph .word-pill .pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 0 6px var(--accent-primary);
+  animation: pillPulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.text-reveal-paragraph .word-pill .pill-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  -webkit-text-fill-color: var(--accent-primary);
+  line-height: 1;
 }
 
 @media (max-width: 1023px) {

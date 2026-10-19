@@ -1061,26 +1061,77 @@ function initKineticTextReveal() {
   const textContainers = document.querySelectorAll('[data-scroll-reveal-text]');
   if (textContainers.length === 0) return;
 
+  const pillMap = {
+    'backend': { icon: '⚡', text: 'FastAPI & Redis' },
+    'intelligence': { icon: '🤖', text: 'CV & Audio' },
+    'contracts': { icon: '📜', text: 'Type-Safe' },
+    'latency': { icon: '⏱️', text: 'Sub-50ms' },
+    'scale': { icon: '📈', text: 'High Throughput' }
+  };
+
   textContainers.forEach(container => {
+    // Ambient mouse spotlight tracking
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      container.style.setProperty('--mouse-x', `${x}px`);
+      container.style.setProperty('--mouse-y', `${y}px`);
+    });
+
     const rawText = container.textContent.trim();
     const words = rawText.split(/\s+/);
     container.innerHTML = '';
 
-    const wordSpans = words.map((word) => {
-      const span = document.createElement('span');
-      span.className = 'word';
-      
-      // Selectively highlight key engineering terms in brand colors
+    const wordSpans = [];
+
+    words.forEach((word) => {
       const cleanWord = word.replace(/[^a-zA-Z0-9-]/g, '').toLowerCase();
-      if (['resilient', 'backend', 'scale', 'minimal'].includes(cleanWord)) {
-        span.classList.add('highlight-red');
-      } else if (['applied', 'intelligence', 'strict', 'contracts'].includes(cleanWord)) {
-        span.classList.add('highlight-gold');
+      const pillData = pillMap[cleanWord];
+
+      let span;
+      if (pillData) {
+        const wrap = document.createElement('span');
+        wrap.className = 'word-wrapper';
+        wrap.tabIndex = 0;
+
+        span = document.createElement('span');
+        span.className = 'word';
+
+        if (['resilient', 'backend', 'scale', 'minimal'].includes(cleanWord)) {
+          span.classList.add('highlight-red');
+        } else if (['applied', 'intelligence', 'strict', 'contracts'].includes(cleanWord)) {
+          span.classList.add('highlight-gold');
+        }
+        span.textContent = word;
+
+        const pill = document.createElement('span');
+        pill.className = 'word-pill';
+        pill.setAttribute('aria-hidden', 'true');
+        pill.innerHTML = `<span class="pill-dot"></span><span class="pill-text">${pillData.icon} ${pillData.text}</span>`;
+
+        wrap.appendChild(span);
+        wrap.appendChild(pill);
+
+        // Touch support
+        wrap.addEventListener('touchstart', () => wrap.classList.toggle('is-active'), { passive: true });
+
+        container.appendChild(wrap);
+      } else {
+        span = document.createElement('span');
+        span.className = 'word';
+
+        if (['resilient', 'backend', 'scale', 'minimal'].includes(cleanWord)) {
+          span.classList.add('highlight-red');
+        } else if (['applied', 'intelligence', 'strict', 'contracts'].includes(cleanWord)) {
+          span.classList.add('highlight-gold');
+        }
+
+        span.textContent = word;
+        container.appendChild(span);
       }
 
-      span.textContent = word;
-      container.appendChild(span);
-      return span;
+      wordSpans.push(span);
     });
 
     // Animate words progressively as the container enters and travels across viewport
