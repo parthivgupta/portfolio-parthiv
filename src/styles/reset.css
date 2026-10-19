@@ -26,6 +26,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 /* Background Subtle Technical Grid Overlay */
@@ -39,10 +40,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, var(--grid-glow) 0%, transparent 60%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 100% 100%, 48px 48px, 48px 48px;
+  transition: opacity var(--transition-normal);
 }
 
 img, picture, video, canvas, svg {

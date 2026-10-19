@@ -1,6 +1,6 @@
 /* ==========================================================================
    DESIGN TOKENS - PARTHIV GUPTA PORTFOLIO
-   Theme: Pure Black Modern Luxury Editorial Theme
+   Themes: Pure Black Luxury Editorial & Modern Editorial White
    ========================================================================== */
 
 /* Local Custom Font: Run! (From assets/run-font.zip) */
@@ -12,7 +12,14 @@
   font-display: swap;
 }
 
-:root {
+/* ==========================================================================
+   DARK THEME (Default)
+   ========================================================================== */
+:root,
+[data-theme="dark"] {
+  /* Color Scheme declaration for native controls */
+  color-scheme: dark;
+
   /* Core Contrast & Pitch Black Foundations */
   --c-black: #000000;
   --c-white: #ffffff;
@@ -40,7 +47,7 @@
   --border-magenta: rgba(255, 255, 255, 0.22);
   --border-amber: rgba(255, 255, 255, 0.22);
 
-  /* High-Contrast Luxury Accents - Extracted from Personal Image (Neon Crimson & Solar Amber) */
+  /* High-Contrast Luxury Accents - Neon Crimson & Solar Amber */
   --accent-red: #EB3833;
   --accent-red-glow: rgba(235, 56, 51, 0.45);
   --accent-gold: #F59E0B;
@@ -69,7 +76,98 @@
   /* Ambient Grid Highlights */
   --ambient-glow-1: rgba(255, 255, 255, 0.04);
   --ambient-glow-2: rgba(255, 255, 255, 0.02);
+  --grid-line: rgba(255, 255, 255, 0.025);
+  --grid-glow: rgba(255, 255, 255, 0.04);
 
+  /* Shadows & Glows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.95);
+  --glow-blue: 0 0 25px rgba(255, 255, 255, 0.15);
+  --glow-magenta: 0 0 25px rgba(255, 255, 255, 0.12);
+  --glow-amber: 0 0 25px rgba(255, 255, 255, 0.12);
+}
+
+/* ==========================================================================
+   WHITE / LIGHT THEME
+   Modern Luxury White Editorial
+   ========================================================================== */
+[data-theme="light"] {
+  /* Color Scheme declaration for native controls */
+  color-scheme: light;
+
+  /* Core Contrast & White Foundations */
+  --c-black: #000000;
+  --c-white: #ffffff;
+  --c-offwhite: #1e293b;
+
+  /* Surfaces & Backgrounds - Crisp White & Layered Soft Surface Tones */
+  --bg-canvas: #f8fafc;
+  --bg-surface-0: #ffffff;
+  --bg-surface-1: #ffffff;
+  --bg-surface-2: #f1f5f9;
+  --bg-surface-3: #e2e8f0;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+
+  /* Typography Colors - High readability crisp slate & carbon */
+  --text-primary: #090d16;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers - Crisp architectural borders */
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-default: rgba(15, 23, 42, 0.14);
+  --border-hover: rgba(15, 23, 42, 0.32);
+  --border-active: #090d16;
+  --border-magenta: rgba(15, 23, 42, 0.14);
+  --border-amber: rgba(15, 23, 42, 0.14);
+
+  /* High-Contrast Luxury Accents - Tuned for crisp white background */
+  --accent-red: #D92420;
+  --accent-red-glow: rgba(217, 36, 32, 0.22);
+  --accent-gold: #D97706;
+  --accent-gold-glow: rgba(217, 119, 6, 0.2);
+  --accent-primary: #D92420;
+  --accent-secondary: #D97706;
+  --accent-highlight: #D97706;
+
+  /* Accent Alpha Tints */
+  --tint-blue-10: rgba(217, 36, 32, 0.08);
+  --tint-blue-20: rgba(217, 36, 32, 0.15);
+  --tint-blue-30: rgba(217, 36, 32, 0.24);
+
+  --tint-magenta-10: rgba(217, 36, 32, 0.08);
+  --tint-magenta-20: rgba(217, 36, 32, 0.15);
+
+  --tint-amber-10: rgba(217, 119, 6, 0.09);
+  --tint-amber-20: rgba(217, 119, 6, 0.18);
+
+  /* Gradients */
+  --grad-primary: linear-gradient(135deg, #D92420 0%, #D97706 100%);
+  --grad-warm: linear-gradient(135deg, #D97706 0%, #D92420 100%);
+  --grad-surface: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  --grad-glow: radial-gradient(circle at 50% 0%, rgba(217, 36, 32, 0.07), transparent 70%);
+
+  /* Ambient Grid Highlights */
+  --ambient-glow-1: rgba(15, 23, 42, 0.03);
+  --ambient-glow-2: rgba(15, 23, 42, 0.015);
+  --grid-line: rgba(15, 23, 42, 0.045);
+  --grid-glow: rgba(217, 36, 32, 0.045);
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 18px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 14px 38px rgba(15, 23, 42, 0.1);
+  --glow-blue: 0 0 20px rgba(15, 23, 42, 0.06);
+  --glow-magenta: 0 0 20px rgba(15, 23, 42, 0.06);
+  --glow-amber: 0 0 20px rgba(15, 23, 42, 0.06);
+}
+
+/* ==========================================================================
+   SHARED DESIGN CONSTANTS
+   ========================================================================== */
+:root {
   /* Typography System */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -89,14 +187,6 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
-
-  /* Shadows & Glows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.8);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.9);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.95);
-  --glow-blue: 0 0 25px rgba(255, 255, 255, 0.15);
-  --glow-magenta: 0 0 25px rgba(255, 255, 255, 0.12);
-  --glow-amber: 0 0 25px rgba(255, 255, 255, 0.12);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);

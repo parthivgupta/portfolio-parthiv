@@ -133,6 +133,14 @@ section {
   border-bottom: 1px solid var(--border-subtle);
 }
 
+.sidebar-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
 .sidebar-brand {
   display: flex;
   align-items: center;
@@ -270,7 +278,8 @@ section {
 
 /* Fluid, graceful active state without abrupt button appearance */
 .sidebar-link.active {
-  color: var(--c-white);
+  color: var(--text-primary);
+  font-weight: var(--fw-semibold);
   transform: translateX(8px);
 }
 
@@ -285,6 +294,120 @@ section {
   gap: 14px;
   padding-top: 20px;
   border-top: 1px solid var(--border-subtle);
+}
+
+/* ==========================================================================
+   THEME SWITCH CONTROLS (LIGHT / WHITE & DARK)
+   ========================================================================== */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-1);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  background: var(--bg-surface-2);
+  transform: translateY(-1px);
+}
+
+.theme-icon {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+:root[data-theme="dark"] .theme-icon.sun-icon,
+[data-theme="dark"] .theme-icon.sun-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+:root[data-theme="dark"] .theme-icon.moon-icon,
+[data-theme="dark"] .theme-icon.moon-icon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+
+[data-theme="light"] .theme-icon.sun-icon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+[data-theme="light"] .theme-icon.moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  color: var(--accent-primary);
+}
+
+/* Theme Segmented Control in Sidebar Footer */
+.theme-segmented-control {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface-0);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+  width: 100%;
+}
+
+.theme-segment-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-radius: calc(var(--radius-md) - 2px);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-segment-btn:hover {
+  color: var(--text-primary);
+}
+
+.theme-segment-btn[aria-pressed="true"] {
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  font-weight: var(--fw-semibold);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .theme-segment-btn[aria-pressed="true"] {
+  background: #ffffff;
+  color: var(--text-primary);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+
+.theme-seg-icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+}
+
+.theme-segment-btn[aria-pressed="true"] .theme-seg-icon {
+  color: var(--accent-primary);
 }
 
 .sidebar-palette-btn {
@@ -321,14 +444,15 @@ section {
   font-weight: var(--fw-semibold);
   font-size: 0.875rem;
   text-decoration: none;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
 }
 
 .sidebar-resume-btn:hover {
-  background: #e4e4e7;
+  background: var(--accent-primary);
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 16px var(--accent-red-glow);
 }
 
 .sidebar-socials {
@@ -479,6 +603,12 @@ section {
 
 .footer-brand-info {
   max-width: 400px;
+}
+
+.footer-brand-info .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .footer-brand-info p {

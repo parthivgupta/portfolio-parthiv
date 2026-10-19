@@ -28,6 +28,17 @@
   <link rel="stylesheet" href="/src/styles/components.css" />
   <link rel="stylesheet" href="/src/styles/animations.css" />
   <link rel="stylesheet" href="/src/styles/responsive.css" />
+
+  <!-- Instant Theme Sync (Prevent FOUC) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('portfolio-theme');
+        var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
 
@@ -44,6 +55,23 @@
     </a>
 
     <div class="mobile-top-actions">
+      <button class="theme-toggle-btn mobile-theme-btn" id="mobileThemeToggleBtn" aria-label="Toggle light and dark theme" title="Toggle theme">
+        <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
       <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle navigation drawer" aria-expanded="false">
         <span></span>
         <span></span>
@@ -61,13 +89,32 @@
   <aside class="side-nav" id="sideNav" aria-label="Sidebar Navigation">
     <!-- Header: Profile & Status -->
     <div class="sidebar-header">
-      <a href="#hero" class="sidebar-brand" aria-label="Parthiv Gupta Portfolio Home">
-        <div class="brand-badge">PG</div>
-        <div class="brand-text">
-          <span class="brand-name">Parthiv Gupta</span>
-          <span class="brand-role">Software Engineer</span>
-        </div>
-      </a>
+      <div class="sidebar-header-top">
+        <a href="#hero" class="sidebar-brand" aria-label="Parthiv Gupta Portfolio Home">
+          <div class="brand-badge">PG</div>
+          <div class="brand-text">
+            <span class="brand-name">Parthiv Gupta</span>
+            <span class="brand-role">Software Engineer</span>
+          </div>
+        </a>
+
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light and dark theme" title="Toggle theme">
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
 
       <div class="sidebar-status">
         <span class="pulse-dot"></span>
@@ -107,8 +154,31 @@
       </a>
     </nav>
 
-    <!-- Footer: Resume & Socials -->
+    <!-- Footer: Theme Selector, Resume & Socials -->
     <div class="sidebar-footer">
+      <div class="theme-segmented-control" role="group" aria-label="Color theme selector">
+        <button type="button" class="theme-segment-btn" data-theme-val="dark" aria-pressed="true" aria-label="Dark Theme">
+          <svg class="theme-seg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span>Dark</span>
+        </button>
+        <button type="button" class="theme-segment-btn" data-theme-val="light" aria-pressed="false" aria-label="White Theme">
+          <svg class="theme-seg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <span>White</span>
+        </button>
+      </div>
+
       <a href="/assets/Parthiv_Gupta_Resume.pdf" target="_blank" download="Parthiv_Gupta_Resume.pdf" class="sidebar-resume-btn" aria-label="Download Resume PDF">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         Download Resume [PDF]

@@ -6,6 +6,7 @@
 import { projectsData } from './projects-data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeSwitcher();
   initSideNav();
   initHeroMotion();
   initPortraitSwitcher();
@@ -753,16 +754,12 @@ function initCardScrollReveal() {
         0
       ), 1);
       const easedProgress = progress * progress * (3 - 2 * progress);
-      const translateY = (1 - easedProgress) * 54;
-      const scale = 0.94 + (easedProgress * 0.06);
-      const blur = (1 - easedProgress) * 7;
-      const inset = (1 - easedProgress) * 7;
+      const translateY = (1 - easedProgress) * 36;
+      const scale = 0.96 + (easedProgress * 0.04);
 
       card.style.setProperty('--card-reveal-progress', easedProgress.toFixed(3));
       card.style.setProperty('--card-reveal-y', `${translateY.toFixed(2)}px`);
       card.style.setProperty('--card-reveal-scale', scale.toFixed(3));
-      card.style.setProperty('--card-reveal-blur', `${blur.toFixed(2)}px`);
-      card.style.setProperty('--card-reveal-inset', `${inset.toFixed(2)}%`);
     });
 
     document.querySelectorAll('.timeline').forEach(timeline => {
@@ -835,17 +832,15 @@ function initKineticTextReveal() {
           0
         ), 1);
         const easedProgress = wordProgress * wordProgress * (3 - 2 * wordProgress);
-        const opacity = 0.18 + (easedProgress * 0.82);
-        const yOffset = (1 - easedProgress) * 0.7;
-        const rotation = (1 - easedProgress) * -18;
-        const scale = 0.98 + (easedProgress * 0.02);
-        const blur = (1 - easedProgress) * 6;
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const baseOpacity = isLight ? 0.4 : 0.25;
+        const opacity = baseOpacity + (easedProgress * (1 - baseOpacity));
+        const yOffset = (1 - easedProgress) * 0.4;
 
         span.style.opacity = opacity.toFixed(3);
-        span.style.transform = `translate3d(0, ${yOffset.toFixed(3)}em, 0) rotateX(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-        span.style.filter = `blur(${blur.toFixed(2)}px)`;
+        span.style.transform = `translate3d(0, ${yOffset.toFixed(3)}em, 0)`;
 
-        if (easedProgress > 0.95) {
+        if (easedProgress > 0.75) {
           span.classList.add('revealed');
         } else {
           span.classList.remove('revealed');
@@ -867,3 +862,86 @@ function initKineticTextReveal() {
     window.addEventListener('resize', updateWordReveal, { passive: true });
   });
 }
+
+/* ==========================================================================
+   11. THEME SWITCHER (WHITE / LIGHT & DARK THEMES)
+   ========================================================================== */
+function initThemeSwitcher() {
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const mobileThemeToggleBtn = document.getElementById('mobileThemeToggleBtn');
+  const segmentBtns = document.querySelectorAll('.theme-segment-btn');
+  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+  function getCurrentTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'dark';
+  }
+
+  function applyTheme(theme, save = true) {
+    const validTheme = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', validTheme);
+    document.body.setAttribute('data-theme', validTheme);
+
+    if (save) {
+      try {
+        localStorage.setItem('portfolio-theme', validTheme);
+      } catch (err) {
+        console.warn('Could not save theme preference:', err);
+      }
+    }
+
+    // Update aria labels and titles
+    const isDark = validTheme === 'dark';
+    if (themeToggleBtn) {
+      themeToggleBtn.setAttribute('aria-label', isDark ? 'Switch to white theme' : 'Switch to dark theme');
+      themeToggleBtn.setAttribute('title', isDark ? 'Switch to white theme' : 'Switch to dark theme');
+    }
+    if (mobileThemeToggleBtn) {
+      mobileThemeToggleBtn.setAttribute('aria-label', isDark ? 'Switch to white theme' : 'Switch to dark theme');
+      mobileThemeToggleBtn.setAttribute('title', isDark ? 'Switch to white theme' : 'Switch to dark theme');
+    }
+
+    segmentBtns.forEach(btn => {
+      const btnTheme = btn.getAttribute('data-theme-val');
+      const isSelected = btnTheme === validTheme;
+      btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+
+    // Update browser status bar / theme-color meta tag
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDark ? '#000000' : '#ffffff');
+    }
+  }
+
+  function toggleTheme() {
+    const current = getCurrentTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next, true);
+  }
+
+  // Event Listeners for Header / Mobile Toggle Buttons
+  themeToggleBtn?.addEventListener('click', toggleTheme);
+  mobileThemeToggleBtn?.addEventListener('click', toggleTheme);
+
+  // Event Listeners for Segmented Buttons in Sidebar Footer
+  segmentBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedTheme = btn.getAttribute('data-theme-val');
+      if (selectedTheme) {
+        applyTheme(selectedTheme, true);
+      }
+    });
+  });
+
+  // Listen for System Theme preference change if user hasn't set explicit preference
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    try {
+      if (!localStorage.getItem('portfolio-theme')) {
+        applyTheme(e.matches ? 'dark' : 'light', false);
+      }
+    } catch (_) {}
+  });
+
+  // Initial Sync from DOM attribute (set by head script)
+  applyTheme(getCurrentTheme(), false);
+}
+
