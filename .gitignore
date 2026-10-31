@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+
+# Local reference media and source-only assets
+assets/images/screen-rec/
+assets/run-font.zip
+color-palette/
+images/personal-image/
