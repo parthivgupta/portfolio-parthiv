@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://parthivgupta.vercel.app/sitemap.xml
+Sitemap: https://www.parthivv.info/sitemap.xml
